@@ -1,0 +1,3 @@
+# neovim config
+
+This config probably won't work on your machine, but will on mine...
