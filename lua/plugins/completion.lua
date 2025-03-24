@@ -71,10 +71,10 @@ return {
                 -- Options: "lsp", "path", "snippets", "buffer"
                 default = {},
                 per_filetype = {
-                    go = { "lsp", "path", "snippets" },
+                    go = { "lsp", "snippets" },
                     gitcommit = {},
-                    typescriptreact = { "lsp", "path", "snippets" },
-                    typescript = { "lsp", "path", "snippets" },
+                    typescriptreact = { "lsp", "snippets" },
+                    typescript = { "lsp", "snippets" },
                 },
             },
             appearance = {

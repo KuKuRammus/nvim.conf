@@ -178,7 +178,7 @@ return {
                     }
                 },
 
-                on_attach = function(client, bufnr)
+                on_attach = function(client, buf)
                     -- Use conform.nvim for formatting instead built in one
                     client.server_capabilities.documentFormattingProvider = false
                     keymap_init(buf)
