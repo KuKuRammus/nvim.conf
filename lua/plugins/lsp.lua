@@ -152,7 +152,7 @@ return {
                     "force",
                     {},
                     capabilities,
-                    lspconfig.clangd.capabilities or {}
+                    lspconfig.ts_ls.capabilities or {}
                 ),
 
                 filetypes = {
