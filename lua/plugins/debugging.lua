@@ -14,8 +14,8 @@ return {
             -- Breakpoint marker looks
             vim.fn.sign_define('DapBreakpoint', {text='●', texthl='Error', linehl='', numhl='Error'})
             vim.fn.sign_define('DapBreakpointCondition', {text='◉', texthl='Error', linehl='', numhl='Error'})
-            vim.fn.sign_define('DapLogPoint', {text='?', texthl='', linehl='', numhl=''})
-            vim.fn.sign_define('DapStopped', {text='⟶', texthl='', linehl='', numhl=''})
+            vim.fn.sign_define('DapLogPoint', {text='󱂅', texthl='', linehl='', numhl=''})
+            vim.fn.sign_define('DapStopped', {text='', texthl='', linehl='', numhl=''})
 
             -- TODO: Add description to keymaps
 
