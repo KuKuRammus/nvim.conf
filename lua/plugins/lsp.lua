@@ -46,6 +46,14 @@ return {
             -- Completion capabilities
             local capabilities = require("blink.cmp").get_lsp_capabilities()
 
+            -- TODO: After some update I need to use this for some reason? Figure out whats going on later
+            vim.diagnostic.config({
+                virtual_text = true,
+                signs = true,
+                underline = true,
+                update_in_insert = false,
+                severity_sort = true,
+            })
 
             --
             -- Go (gopls)
