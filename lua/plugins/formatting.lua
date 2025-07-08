@@ -35,7 +35,7 @@ return {
 
                 format_on_save = {
                     -- These options will be passed to conform.format()
-                    timeout_ms = 5000,
+                    timeout_ms = 10000,
                     lsp_format = "fallback",
                 }
             })
