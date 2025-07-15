@@ -73,6 +73,7 @@ return {
                 per_filetype = {
                     go = { "lsp", "snippets" },
                     c = { "lsp", "snippets" },
+                    cpp = { "lsp", "snippets" },
                     gitcommit = {},
                     typescriptreact = { "lsp", "snippets" },
                     typescript = { "lsp", "snippets" },
