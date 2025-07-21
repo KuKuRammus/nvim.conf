@@ -22,6 +22,7 @@ return {
                     "go",
                     "gomod",
                     "gowork",
+                    "glsl",
                     "html",
                     "javascript",
                     "json",
