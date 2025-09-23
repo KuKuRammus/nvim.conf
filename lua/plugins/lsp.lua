@@ -41,8 +41,6 @@ return {
             "saghen/blink.cmp",
         },
         config = function ()
-            local lspconfig = require("lspconfig")
-
             -- Completion capabilities
             local capabilities = require("blink.cmp").get_lsp_capabilities()
 
@@ -58,14 +56,7 @@ return {
             --
             -- Go (gopls)
             --
-            lspconfig.gopls.setup({
-                capabilities = vim.tbl_deep_extend(
-                    "force",
-                    {},
-                    capabilities,
-                    lspconfig.gopls.capabilities or {}
-                ),
-
+            vim.lsp.config("gopls", {
                 -- Docs: https://go.googlesource.com/vscode-go/+/HEAD/docs/settings.md#settings-for
                 -- Lazyvim version: https://www.lazyvim.org/extras/lang/go
                 settings = {
@@ -124,19 +115,13 @@ return {
                     end
                 end,
             })
+            vim.lsp.enable({"gopls"})
 
 
             --
             -- C/C++ (clangd)
             --
-            lspconfig.clangd.setup({
-                capabilities = vim.tbl_deep_extend(
-                    "force",
-                    {},
-                    capabilities,
-                    lspconfig.clangd.capabilities or {}
-                ),
-
+            vim.lsp.config("clangd", {
                 cmd = {
                     'clangd',
                     '--clang-tidy',
@@ -151,18 +136,12 @@ return {
                     keymap_init(buf)
                 end
             })
+            vim.lsp.enable({"clangd"})
 
             --
             -- TypeScript / JavaScript
             --
-            lspconfig.ts_ls.setup({
-                capabilities = vim.tbl_deep_extend(
-                    "force",
-                    {},
-                    capabilities,
-                    lspconfig.ts_ls.capabilities or {}
-                ),
-
+            vim.lsp.config("ts_ls", {
                 filetypes = {
                     "typescript",
                     "javascript",
@@ -192,6 +171,7 @@ return {
                     keymap_init(buf)
                 end,
             })
+            vim.lsp.enable({"ts_ls"})
         end,
     }
 }
