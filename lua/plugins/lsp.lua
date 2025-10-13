@@ -25,11 +25,10 @@ local function keymap_init(buf)
     vim.keymap.set("n", "gn", vim.lsp.buf.rename, opts)
 
     -- [ ]x ]: Diagnostic next
-    vim.keymap.set("n", "]x", function () vim.diagnostic.goto_next({ float = false }) end, opts)
+    vim.keymap.set("n", "]x", function() vim.diagnostic.goto_next({ float = false }) end, opts)
 
     -- [ [x ]: Diagnostic prev
-    vim.keymap.set("n", "[x", function () vim.diagnostic.goto_prev({ float = false }) end, opts)
-
+    vim.keymap.set("n", "[x", function() vim.diagnostic.goto_prev({ float = false }) end, opts)
 end
 
 return {
@@ -40,7 +39,7 @@ return {
         dependencies = {
             "saghen/blink.cmp",
         },
-        config = function ()
+        config = function()
             -- Completion capabilities
             local capabilities = require("blink.cmp").get_lsp_capabilities()
 
@@ -97,7 +96,7 @@ return {
                     },
                 },
 
-                on_attach = function (client, buf)
+                on_attach = function(client, buf)
                     keymap_init(buf)
 
                     -- workaround for gopls not supporting semanticTokensProvider
@@ -115,7 +114,7 @@ return {
                     end
                 end,
             })
-            vim.lsp.enable({"gopls"})
+            vim.lsp.enable({ "gopls" })
 
 
             --
@@ -130,13 +129,13 @@ return {
                     '--background-index',
                 },
 
-                filetypes = {'c', 'cpp', 'objc', 'objcpp'},
+                filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
 
-                on_attach = function (_, buf)
+                on_attach = function(_, buf)
                     keymap_init(buf)
                 end
             })
-            vim.lsp.enable({"clangd"})
+            vim.lsp.enable({ "clangd" })
 
             --
             -- TypeScript / JavaScript
@@ -171,7 +170,60 @@ return {
                     keymap_init(buf)
                 end,
             })
-            vim.lsp.enable({"ts_ls"})
+            vim.lsp.enable({ "ts_ls" })
+
+            --
+            -- Lua
+            --
+            vim.lsp.config('lua_ls', {
+                on_init = function(client)
+                    if client.workspace_folders then
+                        local path = client.workspace_folders[1].name
+                        if
+                            path ~= vim.fn.stdpath('config')
+                            and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
+                        then
+                            return
+                        end
+                    end
+
+                    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+                        runtime = {
+                            -- Tell the language server which version of Lua you're using (most
+                            -- likely LuaJIT in the case of Neovim)
+                            version = 'LuaJIT',
+                            -- Tell the language server how to find Lua modules same way as Neovim
+                            -- (see `:h lua-module-load`)
+                            path = {
+                                'lua/?.lua',
+                                'lua/?/init.lua',
+                            },
+                        },
+                        -- Make the server aware of Neovim runtime files
+                        workspace = {
+                            checkThirdParty = false,
+                            library = {
+                                vim.env.VIMRUNTIME
+                                -- Depending on the usage, you might want to add additional paths
+                                -- here.
+                                -- '${3rd}/luv/library'
+                                -- '${3rd}/busted/library'
+                            }
+                            -- Or pull in all of 'runtimepath'.
+                            -- NOTE: this is a lot slower and will cause issues when working on
+                            -- your own configuration.
+                            -- See https://github.com/neovim/nvim-lspconfig/issues/3189
+                            -- library = {
+                            --   vim.api.nvim_get_runtime_file('', true),
+                            -- }
+                        }
+                    })
+                end,
+                settings = {
+                    Lua = {}
+                }
+            })
+            vim.lsp.enable({ "lua_ls" })
         end,
     }
 }

@@ -25,6 +25,9 @@ List of dependencies this configuration uses
 - `goimports-reviser` - https://github.com/incu6us/goimports-reviser
 - `golangcilint` - https://golangci-lint.run/
 
+## Lua
+
+- `lua-language-server` - https://archlinux.org/packages/extra/x86_64/lua-language-server/
 
 ## C/C++
 - `bear`- https://archlinux.org/packages/extra/x86_64/bear/

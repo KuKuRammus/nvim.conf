@@ -7,7 +7,7 @@ return {
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        config = function ()
+        config = function()
             require("nvim-treesitter.configs").setup({
                 -- Ensure these are supported
                 ensure_installed = {
@@ -19,10 +19,10 @@ return {
                     "dockerfile",
                     "elixir",
                     "erlang",
+                    "glsl",
                     "go",
                     "gomod",
                     "gowork",
-                    "glsl",
                     "html",
                     "javascript",
                     "json",
@@ -31,12 +31,13 @@ return {
                     "markdown",
                     "php",
                     "python",
+                    "query",
                     "regex",
                     "scss",
                     "toml",
-                    "typescript",
                     "tsx",
                     "twig",
+                    "typescript",
                     "vim",
                     "xml",
                     "yaml",

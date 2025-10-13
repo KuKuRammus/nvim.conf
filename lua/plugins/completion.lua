@@ -8,14 +8,14 @@ return {
         "L3MON4D3/LuaSnip",
         version = "v2.*",
         build = "make install_jsregexp",
-        config = function ()
+        config = function()
             local ls = require("luasnip")
             ls.setup({
                 update_events = { "TextChanged", "TextChangedI" },
             })
 
             -- [Ctrl+k]: Jump to next node
-            vim.keymap.set({ "i", "s" }, "<C-k>", function ()
+            vim.keymap.set({ "i", "s" }, "<C-k>", function()
                 if ls.expand_or_jumpable() then
                     ls.expand_or_jump()
                 end
@@ -77,6 +77,7 @@ return {
                     gitcommit = {},
                     typescriptreact = { "lsp", "snippets" },
                     typescript = { "lsp", "snippets" },
+                    lua = { "lsp", "snippets" },
                 },
             },
             appearance = {
