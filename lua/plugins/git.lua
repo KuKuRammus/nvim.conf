@@ -1,46 +1,59 @@
--- Git related stuff
+-- Code formatting
 --
 
 return {
-    -- gitsigns.nvim - Simple git integration
-    -- https://github.com/lewis6991/gitsigns.nvim
-    {
-        "lewis6991/gitsigns.nvim",
-        config = function ()
-            local gitsigns = require("gitsigns")
+	-- gitsigns.nvim - Simple git integration
+	-- https://github.com/lewis6991/gitsigns.nvim
+	{
+		"lewis6991/gitsigns.nvim",
+		event = "BufReadPre",
+		config = function()
+			require("gitsigns").setup({
+				on_attach = function(buf)
+					local gs = require("gitsigns")
 
-            gitsigns.setup({
-                on_attach = function (buf)
-                    -- TODO: https://github.com/lewis6991/gitsigns.nvim?tab=readme-ov-file#-keymaps
+					local function map(mode, l, r, desc)
+						vim.keymap.set(mode, l, r, { buffer = buf, desc = desc })
+					end
 
-                    local function map(mode, l, r, opts)
-                        opts = opts or {}
-                        opts.buffer = buf
-                        vim.keymap.set(mode, l, r, opts)
-                    end
+					-- []c]: Next hunk (change)
+					map("n", "]c", function()
+						if vim.wo.diff then
+							vim.cmd.normal({ "]c", bang = true })
+						else
+							gs.nav_hunk("next")
+						end
+					end, "Next hunk")
 
-                    -- [ ]c ]: Next hunk (change)
-                    map('n', ']c', function()
-                        if vim.wo.diff then
-                            vim.cmd.normal({']c', bang = true})
-                        else
-                            gitsigns.nav_hunk('next')
-                        end
-                    end)
+					-- [[c]: Previous hunk (change)
+					map("n", "[c", function()
+						if vim.wo.diff then
+							vim.cmd.normal({ "[c", bang = true })
+						else
+							gs.nav_hunk("prev")
+						end
+					end, "Previous hunk")
 
-                    -- [ [c ]: Previous hunk (change)
-                    map('n', '[c', function()
-                        if vim.wo.diff then
-                            vim.cmd.normal({'[c', bang = true})
-                        else
-                            gitsigns.nav_hunk('prev')
-                        end
-                    end)
+					-- [<leader>gs] Stage hunk under cursor (git add single hunk)
+					map("n", "<leader>gs", gs.stage_hunk, "Stage hunk")
 
-                    -- [<leader><leader>gd]: Show diff
-                    map("n", "<leader><leader>gd", gitsigns.diffthis, { desc = "git diff" })
-                end,
-            })
-        end,
-    }
+					-- [<leader>gu] Undo staged hunk
+					map("n", "<leader>gu", gs.undo_stage_hunk, "Undo stage hunk")
+
+					-- [<leader>gr] Reset hunk (undo change)
+					map("n", "<leader>gr", gs.reset_hunk, "Reset hunk")
+
+					-- [<leader>gp] Preview hunk changes in a floating window
+					map("n", "<leader>gp", gs.preview_hunk, "Preview hunk")
+
+					-- [<leader>gb] Blame current line
+					map("n", "<leader>gb", gs.blame_line, "Blame line")
+
+					-- [<leader>gd] Show diff against index
+					map("n", "<leader>gd", gs.diffthis, "Diff against index")
+				end,
+			})
+		end,
+	},
 }
+

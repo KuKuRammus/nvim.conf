@@ -1,93 +1,76 @@
--- Code/Action/File system navigation related stuff
+-- Navigation
 --
 
-
 return {
-    -- telescope-fzf-native.nvim - FZF sorter for telescope written in C
-    -- https://github.com/nvim-telescope/telescope-fzf-native.nvim
-    {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
-    },
+	-- fzf-lua - fuzzy finder for files, grep, LSP, and more
+	-- https://github.com/ibhagwan/fzf-lua
+	{
+		"ibhagwan/fzf-lua",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			local fzf = require("fzf-lua")
+			fzf.setup({
+				-- Use "fzf-native" for fzf-like interface
+				-- Other options: "telescope", "max-perf"
+				"fzf-native",
 
-    -- telescope.nvim - Floating picker for a lot of stuff
-    -- https://github.com/nvim-telescope/telescope.nvim
-    {
-        "nvim-telescope/telescope.nvim",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            {
-                "nvim-telescope/telescope-fzf-native.nvim",
-                build = "make",
-            }
-        },
-        config = function ()
-            local builtin = require("telescope.builtin")
-            local telescope = require("telescope")
+				winopts = {
+					height = 0.85,
+					width = 0.80,
+					preview = {
+						layout = "horizontal",
+						horizontal = "right:60%",
+					},
+				},
+			})
 
-            telescope.setup()
+			-- [<leader>ff]: Find files (git files if in repo, all files otherwise)
+			vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find files" })
 
-            -- Extension: FZF sorter
-            telescope.load_extension('fzf')
+			-- [<leader>fg]: Live grep across project
+			vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "Live grep" })
 
-            -- [<leader>ff]: Search all files (only git files if inside repo)
-            vim.keymap.set("n", "<leader>ff", function ()
-                local is_repo = vim.fn.system("git rev-parse --is-inside-work-tree"):match("true")
-                if is_git_repo then
-                    builtin.git_files({ hidden = true })
-                else
-                    builtin.find_files({ hidded = true })
-                end
-            end, { desc = "Files" })
+			-- [<leader>fb]: Open buffers
+			vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Buffers" })
 
-            -- [<leader>fr]: List references (lsp)
-            vim.keymap.set("n", "<leader>fr", builtin.lsp_references, { desc = "List references" })
+			-- [<leader>fh]: Help tags
+			vim.keymap.set("n", "<leader>fh", fzf.helptags, { desc = "Help tags" })
 
-            -- [<leader>fs]: List document symbols (lsp)
-            -- TODO: While this works, ideally, I would rather prefer if struct fields weren't present in this picker
-            vim.keymap.set("n", "<leader>fs", function ()
-                builtin.lsp_document_symbols({show_line = true})
-            end, { desc = "List symbols in current document" })
+			-- [<leader>fr]: LSP references
+			vim.keymap.set("n", "<leader>fr", fzf.lsp_references, { desc = "LSP references" })
 
-            -- [<leader>fq]: List quickfix options
-            -- TODO: Figure out how does it work?
-            vim.keymap.set("n", "<leader>fq", builtin.quickfix, { desc = "List quickfix options" })
+			-- [<leader>fs]: LSP document symbols
+			vim.keymap.set("n", "<leader>fs", fzf.lsp_document_symbols, { desc = "LSP document symbols" })
 
+			-- [<leader>fd]: Diagnostics
+			vim.keymap.set("n", "<leader>fd", fzf.diagnostics_document, { desc = "Document diagnostics" })
 
-            -- view changed files (changed_files)
-        end,
-    },
+			-- [<leader>fq]: Quickfix list
+			vim.keymap.set("n", "<leader>fq", fzf.quickfix, { desc = "Quickfix" })
+		end,
+	},
 
+	-- oil.nvim - Filesystem navigation and management in buffer-like style
+	-- https://github.com/stevearc/oil.nvim
+	{
+		"stevearc/oil.nvim",
+		config = function()
+			require("oil").setup({
+				columns = {
+					"icon",
+					"permissions",
+					"size",
+				},
 
-    -- oil.nvim - Filesystem navigation and management in buffer-like style
-    -- https://github.com/stevearc/oil.nvim
-    {
-        "stevearc/oil.nvim",
-        ---@module 'oil'
-        ---@type oil.SetupOpts
-        opts = {},
-        config = function ()
-            -- Setup
-            require("oil").setup({
-                -- Columns
-                columns = {
-                    "icon",
-                    "permissions",
-                    "size",
-                },
+				-- Send deleted files to the trash instead of permanently deleting them
+				delete_to_trash = true,
 
-                -- Send deleted files to the trash instead of permanently deleting them
-                delete_to_trash = true,
+				view_options = {
+					show_hidden = true,
+				},
+			})
 
-                -- View options
-                view_options = {
-                    -- Show hidden files
-                    show_hidden = true,
-                },
-            });
-
-            -- Keymap
-            vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" });
-        end,
-    },
+			vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+		end,
+	},
 }

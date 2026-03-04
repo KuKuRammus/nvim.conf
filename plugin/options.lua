@@ -1,51 +1,50 @@
--- Options
+-- Editor options
 --
 
--- Prefer dark colors
+-- Dark theme preference
 vim.o.background = "dark"
 
--- Use system clipboard
+-- Clipboard support
 vim.o.clipboard = "unnamedplus"
 
--- Current line highlight
+-- Cursor line highlight
 vim.o.cursorline = true
 
--- Better colors
-if vim.fn.has("termguicolors") == 1 then
-    vim.o.termguicolors = true
-end
+-- True color support
+vim.o.termguicolors = true
 
--- Search
+-- Search behavior
 vim.o.hlsearch = false -- Remove highlight after search
 vim.o.incsearch = true -- Search as you type
 
--- Minimal amount of lines to keep above/below cursor
+-- Keep context lines above/below cursor
 vim.o.scrolloff = 10
 
 -- Line numbers
 vim.o.number = true
 vim.o.relativenumber = true
 
--- Line wrap
+-- No line wrap
 vim.o.wrap = false
 
--- Keep block cursor everywhere
+-- Block cursor everywhere (no thin insert cursor)
 vim.o.guicursor = ""
 
--- Whitespace highlight
+-- Show trailing whitespace and tabs
 vim.o.list = true
 vim.o.listchars = "trail:~,tab:▹ ,nbsp:_"
 
--- No idea what it does, but apparently I need to change it
+-- Faster CursorHold trigger (affects gitsigns, diagnostics, etc.)
+-- Default is 4000ms, lower = more responsive UI updates
 vim.o.updatetime = 500
 
--- Defult ruler (120)
+-- Column ruler at 120
 vim.opt.colorcolumn = "120"
 
--- Completion menu behavior
+-- Completion menu
 vim.o.completeopt = "menuone,noinsert,noselect"
 
--- Case insensitive search by default, but sensitive if contains at least 1 uppercase
+-- Smart case search (insensitive by default, but sensitive if have at least 1 uppercase)
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
@@ -53,7 +52,7 @@ vim.o.smartcase = true
 vim.o.showmatch = true
 vim.o.matchtime = 2
 
--- Default indentation and tab behavior settings
+-- Default indentation: 4 spaces
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
@@ -61,18 +60,22 @@ vim.o.autoindent = true
 vim.o.smartindent = true
 vim.o.expandtab = true
 
--- Line wrap
-vim.o.wrap = false
-
--- Diagnostic icons
--- See: https://neovim.io/doc/user/diagnostic.html#diagnostic-signs
+-- Diagnostic appearance
 vim.diagnostic.config({
-    signs = {
-        text = {
-            [vim.diagnostic.severity.ERROR] = "",
-            [vim.diagnostic.severity.WARN] = "",
-            [vim.diagnostic.severity.INFO] = "",
-            [vim.diagnostic.severity.HINT] = "",
-        },
-    },
+	virtual_text = true,
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "E",
+			[vim.diagnostic.severity.WARN] = "W",
+			[vim.diagnostic.severity.INFO] = "I",
+			[vim.diagnostic.severity.HINT] = "H",
+		},
+	},
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
 })
+
+-- Minimal statusline
+vim.o.laststatus = 2
+vim.o.statusline = " %f %m %= %y  %l:%c  %p%% "

@@ -1,20 +1,12 @@
--- Other stuff, not sure where to pu
+-- Not sure where to put this
 --
 
 return {
-    -- vim-highlightedyank - Highlights yanked region
-    -- https://github.com/machakann/vim-highlightedyank
-    {
-        "machakann/vim-highlightedyank",
-    },
-
-    -- hardtime.nvim - Forces to use correct keystrokes
-    -- https://github.com/m4xshen/hardtime.nvim
-    {
-        "m4xshen/hardtime.nvim",
-        dependencies = {
-            "MunifTanjim/nui.nvim",
-        },
-        opts = {}
-    },
+	-- hardtime.nvim - Forces to use correct keystrokes
+	-- https://github.com/m4xshen/hardtime.nvim
+	{
+		"m4xshen/hardtime.nvim",
+		dependencies = { "MunifTanjim/nui.nvim" },
+		opts = {},
+	},
 }
