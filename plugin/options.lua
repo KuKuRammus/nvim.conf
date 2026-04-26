@@ -4,21 +4,11 @@
 -- Dark theme preference
 vim.o.background = "dark"
 
--- Clipboard support
-vim.o.clipboard = "unnamedplus"
-
--- Cursor line highlight
-vim.o.cursorline = true
-
 -- True color support
 vim.o.termguicolors = true
 
--- Search behavior
-vim.o.hlsearch = false -- Remove highlight after search
-vim.o.incsearch = true -- Search as you type
-
--- Keep context lines above/below cursor
-vim.o.scrolloff = 10
+-- Cursor line highlight
+vim.o.cursorline = true
 
 -- Line numbers
 vim.o.number = true
@@ -27,22 +17,23 @@ vim.o.relativenumber = true
 -- No line wrap
 vim.o.wrap = false
 
+-- Keep context lines above/below cursor
+vim.o.scrolloff = 10
+
 -- Block cursor everywhere (no thin insert cursor)
 vim.o.guicursor = ""
-
--- Show trailing whitespace and tabs
-vim.o.list = true
-vim.o.listchars = "trail:~,tab:▹ ,nbsp:_"
-
--- Faster CursorHold trigger (affects gitsigns, diagnostics, etc.)
--- Default is 4000ms, lower = more responsive UI updates
-vim.o.updatetime = 500
 
 -- Column ruler at 120
 vim.opt.colorcolumn = "120"
 
--- Completion menu
-vim.o.completeopt = "menuone,noinsert,noselect"
+-- Show trailing whitespace and tabs
+vim.o.list = true
+vim.o.listchars = "trail:~,tab:▹ ,nbsp:_"
+vim.opt.fillchars = { eob = " " }   -- hide ~ on empty lines
+
+-- Search behavior
+vim.o.hlsearch = false -- Remove highlight after search
+vim.o.incsearch = true -- Search as you type
 
 -- Smart case search (insensitive by default, but sensitive if have at least 1 uppercase)
 vim.o.ignorecase = true
@@ -60,22 +51,20 @@ vim.o.autoindent = true
 vim.o.smartindent = true
 vim.o.expandtab = true
 
--- Diagnostic appearance
-vim.diagnostic.config({
-	virtual_text = true,
-	signs = {
-		text = {
-			[vim.diagnostic.severity.ERROR] = "E",
-			[vim.diagnostic.severity.WARN] = "W",
-			[vim.diagnostic.severity.INFO] = "I",
-			[vim.diagnostic.severity.HINT] = "H",
-		},
-	},
-	underline = true,
-	update_in_insert = false,
-	severity_sort = true,
-})
+-- Clipboard support
+vim.o.clipboard = "unnamedplus"
+
+-- Faster CursorHold trigger (affects gitsigns, diagnostics, etc.)
+-- Default is 4000ms, lower = more responsive UI updates
+vim.o.updatetime = 500
+
+-- Persistent undo
+vim.o.undofile = true
+vim.o.undolevels = 10000
 
 -- Minimal statusline
 vim.o.laststatus = 2
-vim.o.statusline = " %f %m %= %y  %l:%c  %p%% "
+-- vim.o.statusline = " %f %m %= %y  %l:%c  %p%% "
+
+-- Completion menu
+vim.o.completeopt = "menuone,noselect,popup"

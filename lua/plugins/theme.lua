@@ -1,17 +1,10 @@
 -- Theme / Colors
 --
 
-return {
-	-- kanagawa.nvim
-	-- https://github.com/rebelot/kanagawa.nvim
-	{
-		"rebelot/kanagawa.nvim",
-		build = ":KanagawaCompile",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require("kanagawa").setup({ compile = true })
-			require("kanagawa").load("wave")
-		end,
-	},
-}
+-- kanagawa.nvim
+-- https://github.com/rebelot/kanagawa.nvim
+vim.pack.add({ "https://github.com/rebelot/kanagawa.nvim" })
+
+require("kanagawa").setup({ compile = true })
+
+vim.cmd.colorscheme("kanagawa-wave")

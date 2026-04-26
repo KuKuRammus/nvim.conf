@@ -1,88 +1,83 @@
 -- Code completion
 --
 
-return {
-	-- blink.cmp - Completion
-	-- https://github.com/Saghen/blink.cmp
-	-- https://cmp.saghen.dev/configuration/reference
-	{
-		"saghen/blink.cmp",
-		version = "*",
-		event = { "InsertEnter", "CmdlineEnter" },
-		opts = {
-			keymap = {
-				-- [Enter]: Accept selection
-				["<CR>"] = { "accept", "fallback" },
+-- blink.cmp - Completion
+-- https://github.com/Saghen/blink.cmp
+-- https://cmp.saghen.dev/configuration/reference
+vim.pack.add({
+    { src = "https://github.com/Saghen/blink.cmp", version = vim.version.range("1") }
+})
 
-				-- [C-n]: Select next
-				["<C-n>"] = { "select_next", "fallback" },
+require("blink.cmp").setup({
+    keymap = {
+        -- [Enter]: Accept selection
+        ["<CR>"] = { "accept", "fallback" },
 
-				-- [C-p]: Select previous
-				["<C-p>"] = { "select_prev", "fallback" },
+        -- [C-n]: Select next
+        ["<C-n>"] = { "select_next", "fallback" },
 
-				-- [C-e]: Close suggestions
-				["<C-e>"] = { "cancel", "fallback" },
+        -- [C-p]: Select previous
+        ["<C-p>"] = { "select_prev", "fallback" },
 
-				-- [C-d]: Scroll docs down
-				["<C-d>"] = { "scroll_documentation_down", "fallback" },
+        -- [C-e]: Close suggestions
+        ["<C-e>"] = { "cancel", "fallback" },
 
-				-- [C-u]: Scroll docs up
-				["<C-u>"] = { "scroll_documentation_up", "fallback" },
-			},
+        -- [C-d]: Scroll docs down
+        ["<C-d>"] = { "scroll_documentation_down", "fallback" },
 
-			-- Use built-in snippet engine
-			snippets = { preset = "default" },
+        -- [C-u]: Scroll docs up
+        ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+    },
 
-			completion = {
-				list = {
-					max_items = 15,
-					selecton = {
-						auto_insert = true,
-					},
-				},
+    -- Use Neovim's built-in vim.snippet engine — no LuaSnip dependency.
+    snippets = { preset = "default" },
 
-				accept = {
-					auto_brackets = { enabled = true },
-				},
+    completion = {
+        list = {
+            max_items = 15,
+            selection = {
+                auto_insert = true,
+            },
+        },
 
-				menu = {
-					draw = {
-						treesitter = { "lsp" },
-					},
-				},
+        accept = {
+            auto_brackets = { enabled = true },
+        },
 
-				documentation = {
-					auto_show = true,
-					auto_show_delay_ms = 250,
-					treesitter_highlighting = true,
-				},
+        menu = {
+            draw = {
+                treesitter = { "lsp" },
+            },
+        },
 
-				ghost_text = { enabled = false },
-			},
+        documentation = {
+            auto_show = true,
+            auto_show_delay_ms = 250,
+            treesitter_highlighting = true,
+        },
 
-			signature = { enabled = true },
+        ghost_text = { enabled = false },
+    },
 
-			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
-				per_filetype = {
-					-- Disable in debugger REPL
-					["dap-repl"] = {},
-				},
-			},
+    signature = { enabled = true },
 
-			cmdline = {
-				completion = {
-					menu = { auto_show = true },
-				},
-			},
-		},
-	},
+    sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+        per_filetype = {
+            -- Disable in debugger REPL
+            ["dap-repl"] = {},
+        },
+    },
 
-	-- nvim-autopairs - autopairs
-	-- https://github.com/windwp/nvim-autopairs
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		config = true,
-	},
-}
+    cmdline = {
+        completion = {
+            menu = { auto_show = true },
+        },
+    },
+})
+
+-- nvim-autopairs - autopairs
+-- https://github.com/windwp/nvim-autopairs
+vim.pack.add({ "https://github.com/windwp/nvim-autopairs" })
+
+require("nvim-autopairs").setup({})

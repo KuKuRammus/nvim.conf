@@ -1,7 +1,7 @@
 -- lsp: C/C++ (clangd)
 --
 
-vim.lsp.config("clangd", {
+return {
 	cmd = {
 		"clangd",
 		"--clang-tidy",
@@ -18,4 +18,4 @@ vim.lsp.config("clangd", {
 		"Makefile",
 		".git",
 	},
-})
+}
