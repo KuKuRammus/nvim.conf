@@ -10,21 +10,23 @@ vim.pack.add({ "https://github.com/mfussenegger/nvim-dap" })
 local dap = require("dap")
 
 -- Sign appearance
-vim.fn.sign_define("DapBreakpoint", { text = "●",  texthl = "Error" })
-vim.fn.sign_define("DapBreakpointCondition", { text = "◉",  texthl = "Error" })
+vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "Error" })
+vim.fn.sign_define("DapBreakpointCondition", { text = "◉", texthl = "Error" })
 vim.fn.sign_define("DapLogPoint", { text = "L", texthl = "" })
-vim.fn.sign_define("DapStopped", { text = "",  texthl = "" })
+vim.fn.sign_define("DapStopped", { text = "", texthl = "" })
 
 -- [<leader>db] Toggle breakpoint
 map("n", "<leader>db", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
 
 -- [<leader>dD] Breakpoint with condition
-map("n", "<leader>dB", function() dap.set_breakpoint(vim.fn.input("Condition: ")) end,
-    { desc = "Conditional breakpoint" })
+map("n", "<leader>dB", function()
+    dap.set_breakpoint(vim.fn.input("Condition: "))
+end, { desc = "Conditional breakpoint" })
 
 -- [<leader>dl] Log point
-map("n", "<leader>dl", function() dap.set_breakpoint(nil, nil, vim.fn.input("Log: ")) end,
-    { desc = "Log point" })
+map("n", "<leader>dl", function()
+    dap.set_breakpoint(nil, nil, vim.fn.input("Log: "))
+end, { desc = "Log point" })
 
 -- [<leader>dc] Start/Continue debugging
 map("n", "<leader>dc", dap.continue, { desc = "Continue" })
@@ -87,7 +89,9 @@ dap.adapters.gdb = {
 }
 dap.configurations.c = {
     {
-        type = "gdb", name = "Debug", request = "launch",
+        type = "gdb",
+        name = "Debug",
+        request = "launch",
         program = function()
             return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
         end,
@@ -95,8 +99,12 @@ dap.configurations.c = {
         stopAtBeginningOfMainSubprogram = false,
     },
     {
-        type = "gdb", name = "Attach to process", request = "attach",
-        pid = function() return vim.fn.input("PID: ") end,
+        type = "gdb",
+        name = "Attach to process",
+        request = "attach",
+        pid = function()
+            return vim.fn.input("PID: ")
+        end,
     },
 }
 dap.configurations.cpp = dap.configurations.c
@@ -108,19 +116,25 @@ vim.pack.add({
 
     -- dependency
     "https://github.com/mfussenegger/nvim-dap",
-    "https://github.com/nvim-neotest/nvim-nio"
+    "https://github.com/nvim-neotest/nvim-nio",
 })
 
-local ui  = require("dapui")
+local ui = require("dapui")
 ui.setup()
 
 -- [<leader>du]: Toggle DAP UI
 map("n", "<leader>du", ui.toggle, { desc = "Toggle DAP UI" })
 
 -- Auto open/close UI
-dap.listeners.after.event_initialized["dapui_config"] = function() ui.open() end
-dap.listeners.before.event_terminated["dapui_config"] = function() ui.close() end
-dap.listeners.before.event_exited["dapui_config"] = function() ui.close() end
+dap.listeners.after.event_initialized["dapui_config"] = function()
+    ui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+    ui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+    ui.close()
+end
 
 -- nvim-dap-virtual-text - Adds virtual text with variable values during debug
 -- https://github.com/theHamsta/nvim-dap-virtual-text

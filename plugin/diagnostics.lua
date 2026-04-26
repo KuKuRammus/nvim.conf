@@ -3,18 +3,18 @@
 
 vim.diagnostic.config({
     virtual_lines = {
-        current_line = true,        -- only show on the cursor's current line (set false to show at every line)
+        current_line = true, -- only show on the cursor's current line (set false to show at every line)
     },
-    virtual_text = false,           -- mutually exclusive with virtual_lines for sanity
+    virtual_text = false, -- mutually exclusive with virtual_lines for sanity
     underline = true,
     update_in_insert = false,
     severity_sort = true,
     signs = {
         text = {
             [vim.diagnostic.severity.ERROR] = "E",
-            [vim.diagnostic.severity.WARN]  = "W",
-            [vim.diagnostic.severity.INFO]  = "I",
-            [vim.diagnostic.severity.HINT]  = "H",
+            [vim.diagnostic.severity.WARN] = "W",
+            [vim.diagnostic.severity.INFO] = "I",
+            [vim.diagnostic.severity.HINT] = "H",
         },
     },
     float = {

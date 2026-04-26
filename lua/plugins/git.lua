@@ -15,32 +15,38 @@ require("gitsigns").setup({
 
         -- []c]: Next hunk (change)
         map("n", "]c", function()
-            if vim.wo.diff then vim.cmd.normal({ "]c", bang = true })
-            else gs.nav_hunk("next") end
+            if vim.wo.diff then
+                vim.cmd.normal({ "]c", bang = true })
+            else
+                gs.nav_hunk("next")
+            end
         end, "Next hunk")
 
         -- [[c]: Previous hunk (change)
         map("n", "[c", function()
-            if vim.wo.diff then vim.cmd.normal({ "[c", bang = true })
-            else gs.nav_hunk("prev") end
+            if vim.wo.diff then
+                vim.cmd.normal({ "[c", bang = true })
+            else
+                gs.nav_hunk("prev")
+            end
         end, "Previous hunk")
 
         -- [<leader>gs] Stage hunk under cursor (git add single hunk)
-        map("n", "<leader>gs", gs.stage_hunk,      "Stage hunk")
+        map("n", "<leader>gs", gs.stage_hunk, "Stage hunk")
 
         -- [<leader>gu] Undo staged hunk
         map("n", "<leader>gu", gs.undo_stage_hunk, "Undo stage")
 
         -- [<leader>gr] Reset hunk (undo change)
-        map("n", "<leader>gr", gs.reset_hunk,      "Reset hunk")
+        map("n", "<leader>gr", gs.reset_hunk, "Reset hunk")
 
         -- [<leader>gp] Preview hunk changes in a floating window
-        map("n", "<leader>gp", gs.preview_hunk,    "Preview hunk")
+        map("n", "<leader>gp", gs.preview_hunk, "Preview hunk")
 
         -- [<leader>gb] Blame current line
-        map("n", "<leader>gb", gs.blame_line,      "Blame line")
+        map("n", "<leader>gb", gs.blame_line, "Blame line")
 
         -- [<leader>gd] Show diff against index
-        map("n", "<leader>gd", gs.diffthis,        "Diff vs index")
+        map("n", "<leader>gd", gs.diffthis, "Diff vs index")
     end,
 })

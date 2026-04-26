@@ -4,8 +4,7 @@
 --
 
 vim.filetype.add({
-	extension = {
-		h = "c",
-	},
+    extension = {
+        h = "c",
+    },
 })
-

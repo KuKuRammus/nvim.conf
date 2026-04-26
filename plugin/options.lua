@@ -29,7 +29,7 @@ vim.opt.colorcolumn = "120"
 -- Show trailing whitespace and tabs
 vim.o.list = true
 vim.o.listchars = "trail:~,tab:▹ ,nbsp:_"
-vim.opt.fillchars = { eob = " " }   -- hide ~ on empty lines
+vim.opt.fillchars = { eob = " " } -- hide ~ on empty lines
 
 -- Search behavior
 vim.o.hlsearch = false -- Remove highlight after search

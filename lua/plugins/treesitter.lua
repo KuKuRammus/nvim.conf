@@ -38,7 +38,7 @@ local parsers = {
     "vimdoc",
     "xml",
     "yaml",
-};
+}
 
 -- Install/update parsers on first launch and whenever the plugin updates
 require("nvim-treesitter").install(parsers)

@@ -5,7 +5,7 @@
 -- https://github.com/Saghen/blink.cmp
 -- https://cmp.saghen.dev/configuration/reference
 vim.pack.add({
-    { src = "https://github.com/Saghen/blink.cmp", version = vim.version.range("1") }
+    { src = "https://github.com/Saghen/blink.cmp", version = vim.version.range("1") },
 })
 
 require("blink.cmp").setup({

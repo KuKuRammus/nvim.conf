@@ -29,7 +29,9 @@ vim.api.nvim_create_user_command("PackUpdate", function(opts)
 end, {
     desc = "Check for and apply plugin updates (interactive)",
     nargs = "*",
-    complete = function() return installed_plugin_names() end,
+    complete = function()
+        return installed_plugin_names()
+    end,
 })
 
 -- :PackStatus - show currently installed versions
@@ -44,7 +46,9 @@ vim.api.nvim_create_user_command("PackClean", function()
     -- Plugins on disk but not added in this session = unused
     local unused = {}
     for _, p in ipairs(vim.pack.get()) do
-        if not p.active then unused[#unused + 1] = p.spec.name end
+        if not p.active then
+            unused[#unused + 1] = p.spec.name
+        end
     end
     if #unused == 0 then
         vim.notify("No unused plugins")
@@ -53,7 +57,8 @@ vim.api.nvim_create_user_command("PackClean", function()
     vim.pack.del(unused)
 end, { desc = "Remove unused plugins" })
 
-
 -- Experimental: UI2
 -- https://neovim.io/doc/user/lua/#ui2
-pcall(function() require("vim._core.ui2").enable() end)
+pcall(function()
+    require("vim._core.ui2").enable()
+end)
