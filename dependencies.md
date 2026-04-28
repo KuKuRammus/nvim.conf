@@ -25,3 +25,7 @@
 - `lua-language-server`
 - `stylua`
 - `luacheck` - via luarocks
+
+## PHP
+- intelephense `npm i intelephense -g`
+- 
