@@ -6,8 +6,10 @@
 
 --- @class PhpstanSetupOpts
 --- @field runtime ComposerServiceDescriptor
---- @field config_file? string  Config file name (default: phpstan.neon)
---- @field memory_limit? string Memory limit (default: "1G")
+--- @field config_file? string      Config file name (default: phpstan.neon)
+--- @field memory_limit? string     Memory limit (default: "1G")
+--- @field bin_path? string         Path to phpstan bin (default: vendor/bin/phpstan)
+--- @field user_cmd_name? string    Vim user command name (default: :Phpstan)
 
 local internal = require("tools.php._internal")
 
@@ -15,8 +17,8 @@ local M = {}
 
 local DEFAULT_CONFIG_FILE = "phpstan.neon"
 local DEFAULT_MEMORY_LIMIT = "1G"
-
-local COMMAND_NAME = "Phpstan"
+local DEFAULT_BIN_PATH = "vendor/bin/phpstan"
+local DEFAULT_USER_COMMAND_NAME = "Phpstan"
 
 --- @param opts PhpstanSetupOpts
 function M.setup(opts)
@@ -24,10 +26,14 @@ function M.setup(opts)
         runtime = { opts.runtime, "table" },
         config_file = { opts.config_file, "string", true },
         memory_limit = { opts.memory_limit, "string", true },
+        bin_path = { opts.bin_path, "string", true },
+        user_cmd_name = { opts.user_cmd_name, "string", true },
     })
 
     local config_file = opts.config_file or DEFAULT_CONFIG_FILE
     local memory_limit = opts.memory_limit or DEFAULT_MEMORY_LIMIT
+    local bin_path = opts.bin_path or DEFAULT_BIN_PATH
+    local user_cmd_name = opts.user_cmd_name or DEFAULT_USER_COMMAND_NAME
     local runtime = opts.runtime
 
     -- Validate config file present
@@ -36,14 +42,14 @@ function M.setup(opts)
         return
     end
 
-    vim.api.nvim_create_user_command(COMMAND_NAME, function(cmd_opts)
+    vim.api.nvim_create_user_command(user_cmd_name, function(cmd_opts)
         local args = {
-            "vendor/bin/phpstan",
+            bin_path,
             "analyze",
             "--error-format=json",
             "--no-progress",
             "--no-interaction",
-            "--memory_limit" .. memory_limit,
+            "--memory-limit=" .. memory_limit,
         }
         if cmd_opts.args ~= "" then
             table.insert(args, runtime:to_container_path(vim.fn.fnamemodify(cmd_opts.args, ":p")))
@@ -92,7 +98,7 @@ function M.setup(opts)
     _G.Project:register_tool({
         namespace = "php",
         name = "phpstan",
-        summary = string.format(":%s command, runs in %s", COMMAND_NAME, runtime.service),
+        summary = string.format(":%s command, runs in %s", user_cmd_name, runtime.service),
     })
 end
 

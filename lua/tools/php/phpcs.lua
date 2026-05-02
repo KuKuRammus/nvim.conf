@@ -8,12 +8,14 @@
 --- @class PhpcsSetupOpts
 --- @field runtime ComposerServiceDescriptor    Docker compose service
 --- @field config_file? string                  Linter config file (default: phpcs.xml.dist)
---- @field events? string[]                     Events to tigger lint on (default: "BufWritePost", "InsertLeave")
+--- @field trigger_events? string[]             Events to tigger lint on (default: "BufWritePost", "InsertLeave")
+--- @field bin_path? string                     Path to phpcs bin (default: vendor/bin/phpcs)
 
 local M = {}
 
 local DEFAULT_CONFIG_FILE = "phpcs.xml.dist"
 local DEFAULT_TRIGGER_EVENTS = { "BufWritePost", "InsertLeave" }
+local DEFAULT_BIN_PATH = "vendor/bin/phpcs"
 
 --- @param raw string|nil
 --- @param bufnr integer
@@ -61,11 +63,13 @@ function M.setup(opts)
     vim.validate({
         runtime = { opts.runtime, "table" },
         config_file = { opts.config_file, "string", true },
-        events = { opts.events, "table", true },
+        trigger_events = { opts.trigger_events, "table", true },
+        bin_path = { opts.bin_path, "string", true },
     })
 
     local config_file = opts.config_file or DEFAULT_CONFIG_FILE
-    local events = opts.events or DEFAULT_TRIGGER_EVENTS
+    local trigger_events = opts.trigger_events or DEFAULT_TRIGGER_EVENTS
+    local bin_path = opts.bin_path or DEFAULT_BIN_PATH
     local runtime = opts.runtime
 
     if vim.fn.filereadable(runtime.host_root .. "/" .. config_file) ~= 1 then
@@ -93,7 +97,7 @@ function M.setup(opts)
 
     -- autocmd: build args from current buffer, run linter for php only
     local group = vim.api.nvim_create_augroup("tools-php-phpcs", { clear = true })
-    vim.api.nvim_create_autocmd(events, {
+    vim.api.nvim_create_autocmd(trigger_events, {
         group = group,
         callback = function(args)
             if vim.bo[args.buf].filetype ~= "php" then
@@ -107,7 +111,7 @@ function M.setup(opts)
 
             local container_path = runtime:to_container_path(bufname)
             local cmd = runtime:build_exec_args({
-                "vendor/bin/phpcs",
+                bin_path,
                 "-q",
                 "--report=json",
                 "--stdin-path=" .. container_path,

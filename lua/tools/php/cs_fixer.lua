@@ -8,10 +8,12 @@
 --- @class PhpCsFixerSetupOpts
 --- @field runtime ComposerServiceDescriptor    Runtime (composer service only for now)
 --- @field config_file? string                  Filename defining formatter settings (default: .php-cs-fixer.dist.php)
+--- @field bin_path? string                     Path to php-cs-fixer bin (default: vendor/bin/php-cs-fixer)
 
 local M = {}
 
 local DEFAULT_CONFIG_FILE = ".php-cs-fixer.dist.php"
+local DEFAULT_BIN_PATH = "vendor/bin/php-cs-fixer"
 
 --- Register formatter with conform.nvim and wire to PHP filetype
 --- @param opts PhpCsFixerSetupOpts
@@ -19,9 +21,11 @@ function M.setup(opts)
     vim.validate({
         runtime = { opts.runtime, "table" },
         config_file = { opts.config_file, "string", true },
+        bin_path = { opts.bin_path, "string", true },
     })
 
     local config_file = opts.config_file or DEFAULT_CONFIG_FILE
+    local bin_path = opts.bin_path or DEFAULT_BIN_PATH
     local runtime = opts.runtime
 
     -- Soft fail if the cs-fixer config doesn't exist in the project
@@ -44,7 +48,7 @@ function M.setup(opts)
         command = "docker",
         args = function(_, ctx)
             local cmd = runtime:build_exec_args({
-                "vendor/bin/php-cs-fixer",
+                bin_path,
                 "fix",
                 "--using-cache=no",
                 "--quiet",

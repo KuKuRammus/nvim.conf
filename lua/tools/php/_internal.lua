@@ -13,7 +13,7 @@ local M = {}
 function M.set_quickfix(title, items)
     vim.fn.setqflist({}, "r", { title = title, items = items })
     if #items > 0 then
-        vim.cmd("open")
+        vim.cmd("copen")
         vim.notify(string.format("%s: %d issues", title, #items), vim.log.levels.WARN)
     else
         vim.cmd("cclose")
