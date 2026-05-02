@@ -9,4 +9,4 @@ vim.pack.add({
     -- dependencies
     "https://github.com/MunifTanjim/nui.nvim",
 })
-require("hardtime").setup()
+-- require("hardtime").setup()
