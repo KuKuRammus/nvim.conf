@@ -11,7 +11,7 @@
 --- @field bin_path? string         Path to phpstan bin (default: vendor/bin/phpstan)
 --- @field user_cmd_name? string    Vim user command name (default: :Phpstan)
 
-local internal = require("tools.php._internal")
+local shared = require("tools._shared")
 
 local M = {}
 
@@ -50,6 +50,7 @@ function M.setup(opts)
             "--no-progress",
             "--no-interaction",
             "--memory-limit=" .. memory_limit,
+            "--configuration=" .. config_file,
         }
         if cmd_opts.args ~= "" then
             table.insert(args, runtime:to_container_path(vim.fn.fnamemodify(cmd_opts.args, ":p")))
@@ -57,7 +58,7 @@ function M.setup(opts)
 
         vim.notify("Running phpstan...", vim.log.levels.INFO)
         runtime:exec_async(args, function(result)
-            local decoded = internal.decode_json(result.stdout)
+            local decoded = shared.decode_json(result.stdout)
             if not decoded then
                 vim.notify("phpstan: failed to parse output: stderr: " .. (result.stderr or ""), vim.log.levels.ERROR)
                 return
@@ -87,7 +88,7 @@ function M.setup(opts)
                 })
             end
 
-            internal.set_quickfix("phpstan", items)
+            shared.set_quickfix("phpstan", items)
         end)
     end, {
         nargs = "?",

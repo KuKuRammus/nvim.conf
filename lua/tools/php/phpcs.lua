@@ -10,23 +10,23 @@
 --- @field config_file? string                  Linter config file (default: phpcs.xml.dist)
 --- @field trigger_events? string[]             Events to tigger lint on (default: "BufWritePost", "InsertLeave")
 --- @field bin_path? string                     Path to phpcs bin (default: vendor/bin/phpcs)
+--- @field user_cmd_name? string                Vim user command name (default: :Phpcs)
+
+local shared = require("tools._shared")
 
 local M = {}
 
 local DEFAULT_CONFIG_FILE = "phpcs.xml.dist"
 local DEFAULT_TRIGGER_EVENTS = { "BufWritePost", "InsertLeave" }
 local DEFAULT_BIN_PATH = "vendor/bin/phpcs"
+local DEFAULT_USER_CMD_NAME = "Phpcs"
 
 --- @param raw string|nil
 --- @param bufnr integer
 --- @return table[]
 local function parse(raw, bufnr)
-    if raw == nil or raw == "" then
-        return {}
-    end
-
-    local ok, decoded = pcall(vim.json.decode, raw)
-    if not ok or type(decoded) ~= "table" or type(decoded.files) ~= "table" then
+    local decoded = shared.decode_json(raw)
+    if decoded == nil or type(decoded) ~= "table" or type(decoded.files) ~= "table" then
         return {}
     end
 
@@ -65,11 +65,13 @@ function M.setup(opts)
         config_file = { opts.config_file, "string", true },
         trigger_events = { opts.trigger_events, "table", true },
         bin_path = { opts.bin_path, "string", true },
+        user_cmd_name = { opts.user_cmd_name, "string", true },
     })
 
     local config_file = opts.config_file or DEFAULT_CONFIG_FILE
     local trigger_events = opts.trigger_events or DEFAULT_TRIGGER_EVENTS
     local bin_path = opts.bin_path or DEFAULT_BIN_PATH
+    local user_cmd_name = opts.user_cmd_name or DEFAULT_USER_CMD_NAME
     local runtime = opts.runtime
 
     if vim.fn.filereadable(runtime.host_root .. "/" .. config_file) ~= 1 then
@@ -115,6 +117,7 @@ function M.setup(opts)
                 "-q",
                 "--report=json",
                 "--stdin-path=" .. container_path,
+                "--standard=" .. config_file,
                 "-",
             })
 
@@ -122,6 +125,58 @@ function M.setup(opts)
             lint.linters.phpcs_docker.args = vim.list_slice(cmd, 2)
             lint.try_lint("phpcs_docker")
         end,
+    })
+
+    -- add user command
+    vim.api.nvim_create_user_command(user_cmd_name, function(cmd_opts)
+        local cmd = {
+            bin_path,
+            "-q",
+            "--report=json",
+            "--no-cache",
+            "--standard=" .. config_file,
+        }
+
+        if cmd_opts.args ~= "" then
+            table.insert(cmd, runtime:to_container_path(vim.fn.fnamemodify(cmd_opts.args, ":p")))
+        end
+
+        vim.notify("Running phpcs...", vim.log.levels.INFO)
+        runtime:exec_async(cmd, function(result)
+            local decoded = shared.decode_json(result.stdout)
+            if not decoded then
+                vim.notify(
+                    string.format(
+                        "phpcs: failed (exit %s)\nstdout: %s\nstderr: %s",
+                        tostring(result.code),
+                        (result.stdout or ""):sub(1, 500),
+                        result.stderr or ""
+                    ),
+                    vim.log.levels.ERROR
+                )
+                return
+            end
+
+            local items = {}
+            for file, file_data in pairs(decoded.files or {}) do
+                local host_path = runtime:to_host_path(file)
+                for _, msg in ipairs(file_data.messages or {}) do
+                    table.insert(items, {
+                        filename = host_path,
+                        lnum = msg.line or 1,
+                        col = msg.column or 1,
+                        text = (msg.source or "") .. ":" .. (msg.message or ""),
+                        type = msg.type == "ERROR" and "E" or "W",
+                    })
+                end
+            end
+
+            shared.set_quickfix("phpcs", items)
+        end)
+    end, {
+        nargs = "?",
+        complete = "file",
+        desc = "Run phpcs project-wide (optionally scoped to path)",
     })
 
     _G.Project:register_tool({

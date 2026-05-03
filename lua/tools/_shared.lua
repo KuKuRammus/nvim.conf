@@ -1,13 +1,14 @@
--- tools.php._internal
+-- tools._shared
 --
--- Shared helpers for tools/php/*
--- Not intended for direct require from .nvim.lua
+-- Utilities, shared across tools/* integrations.
+-- Not intended for require from outside of the tools tree
 --
 
 local M = {}
 
 --- Populate the quickfix list from a list of items, open if non-empty
---- Items must use the standard Vim quickfix item shape
+--- Items must use the standard Vim quickfix item shape:
+---     { filename, lnum, col, text, type }
 --- @param title string
 --- @param items table[]
 function M.set_quickfix(title, items)
