@@ -179,11 +179,13 @@ function M.setup(opts)
         desc = "Run phpcs project-wide (optionally scoped to path)",
     })
 
-    _G.Project:register_tool({
-        namespace = "php",
-        name = "phpcs",
-        summary = string.format("php linting via phpcs in %s", runtime.service),
-    })
+    if _G.Project then
+        _G.Project:register_tool({
+            namespace = "php",
+            name = "phpcs",
+            summary = string.format("php linting via phpcs in %s", runtime.service),
+        })
+    end
 end
 
 return M

@@ -53,12 +53,13 @@ function M.setup(opts)
         desc = "Run PHPUnit (optionally scoped to a path)",
     })
 
-    -- Register tool
-    _G.Project:register_tool({
-        namespace = "php",
-        name = "phpunit",
-        summary = string.format(":%s command, runs in %s", user_cmd_name, runtime.service),
-    })
+    if _G.Project then
+        _G.Project:register_tool({
+            namespace = "php",
+            name = "phpunit",
+            summary = string.format(":%s command, runs in %s", user_cmd_name, runtime.service),
+        })
+    end
 end
 
 return M

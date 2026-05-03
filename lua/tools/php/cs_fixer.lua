@@ -77,11 +77,13 @@ function M.setup(opts)
     existing.php = { "php_cs_fixer_docker" }
     conform.formatters_by_ft = existing
 
-    _G.Project:register_tool({
-        namespace = "php",
-        name = "cs_fixer",
-        summary = string.format("format on save via php-cs-fixer in %s", runtime.service),
-    })
+    if _G.Project then
+        _G.Project:register_tool({
+            namespace = "php",
+            name = "cs_fixer",
+            summary = string.format("format on save via php-cs-fixer in %s", runtime.service),
+        })
+    end
 end
 
 return M

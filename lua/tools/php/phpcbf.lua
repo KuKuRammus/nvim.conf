@@ -70,11 +70,13 @@ function M.setup(opts)
     existing.php = { "phpcbf_docker" }
     conform.formatters_by_ft = existing
 
-    _G.Project:register_tool({
-        namespace = "php",
-        name = "phpcbf",
-        summary = "format on save via phpcbf in " .. runtime.service,
-    })
+    if _G.Project then
+        _G.Project:register_tool({
+            namespace = "php",
+            name = "phpcbf",
+            summary = "format on save via phpcbf in " .. runtime.service,
+        })
+    end
 end
 
 return M
