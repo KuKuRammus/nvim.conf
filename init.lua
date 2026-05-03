@@ -9,5 +9,7 @@ vim.g.maplocalleader = "\\"
 -- Per project .nvim.lua
 vim.o.exrc = true
 
+require("project")
+
 -- Plugins
 require("plugins")

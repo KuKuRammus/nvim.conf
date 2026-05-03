@@ -41,6 +41,12 @@ function M.setup(opts)
         return
     end
 
+    -- ensure no other formatter is setup
+    if (conform.formatters_by_ft or {}).php then
+        vim.notify("php.cs_fixer.setup: another PHP formatter is already registered, skipping", vim.log.levels.WARN)
+        return
+    end
+
     -- Define formatter. Temp-file mode; conform writes the buffer to
     -- <dir>/.conform.N.<filename>, runs cs-fixer on it, reads back
     -- Path translation maps that temp file to its container path
