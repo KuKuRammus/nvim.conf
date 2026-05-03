@@ -5,7 +5,7 @@
 --
 
 --- @class PhpstanSetupOpts
---- @field runtime ComposerServiceDescriptor
+--- @field runtime ComposeServiceDescriptor
 --- @field config_file? string      Config file name (default: phpstan.neon)
 --- @field memory_limit? string     Memory limit (default: "1G")
 --- @field bin_path? string         Path to phpstan bin (default: vendor/bin/phpstan)

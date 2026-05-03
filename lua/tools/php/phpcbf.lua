@@ -4,18 +4,14 @@
 --
 
 --- @class PhpcbfSetupOpts
---- @field runtime ComposerServiceDescriptor
+--- @field runtime ComposeServiceDescriptor
 --- @field config_file? string                  phpcbf config file (default: phpcs.xml.dist)
 --- @field bin_path? string                     Path to phpcbf bin (default: vendor/bin/phpcbf)
---- @field user_cmd_name? string                Vim user command name (default: :Phpcbf)
-
-local shared = require("tools._shared")
 
 local M = {}
 
 local DEFAULT_CONFIG_FILE = "phpcs.xml.dist"
 local DEFAULT_BIN_PATH = "vendor/bin/phpcbf"
-local DEFAULT_USER_CMD_NAME = "Phpcbf"
 
 --- @param opts PhpcbfSetupOpts
 function M.setup(opts)
@@ -23,12 +19,10 @@ function M.setup(opts)
         runtime = { opts.runtime, "table" },
         config_file = { opts.config_file, "string", true },
         bin_path = { opts.bin_path, "string", true },
-        user_cmd_name = { opts.user_cmd_name, "string", true },
     })
 
     local config_file = opts.config_file or DEFAULT_CONFIG_FILE
     local bin_path = opts.bin_path or DEFAULT_BIN_PATH
-    local user_cmd_name = opts.user_cmd_name or DEFAULT_USER_CMD_NAME
     local runtime = opts.runtime
 
     if vim.fn.filereadable(runtime.host_root .. "/" .. config_file) ~= 1 then

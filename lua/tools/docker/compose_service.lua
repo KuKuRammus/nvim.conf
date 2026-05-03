@@ -33,7 +33,7 @@ end
 
 --- Construct a compose-service descriptor
 --- @param opts ComposerServiceOpts
---- @return ComposerServiceDescriptor
+--- @return ComposeServiceDescriptor
 function M.describe(opts)
     opts = opts or {}
 
@@ -75,7 +75,7 @@ function M.describe(opts)
         end
     end
 
-    --- @class ComposerServiceDescriptor
+    --- @class ComposeServiceDescriptor
     --- @field service string
     --- @field host_root string
     --- @field container_root string

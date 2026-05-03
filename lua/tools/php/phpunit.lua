@@ -5,7 +5,7 @@
 --
 
 --- @class PhpunitSetupOpts
---- @field runtime ComposerServiceDescriptor
+--- @field runtime ComposeServiceDescriptor
 --- @field config_file? string      Config file (default: phpunit.dist.xml)
 --- @field bin_path? string         Path to phpunit bin (default: vendor/bin/phpunit)
 --- @field user_cmd_name? string    Vim user command name (default: :Phpunit)

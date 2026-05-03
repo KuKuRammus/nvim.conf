@@ -6,7 +6,7 @@
 --
 
 --- @class PhpcsSetupOpts
---- @field runtime ComposerServiceDescriptor    Docker compose service
+--- @field runtime ComposeServiceDescriptor    Docker compose service
 --- @field config_file? string                  Linter config file (default: phpcs.xml.dist)
 --- @field trigger_events? string[]             Events to tigger lint on (default: "BufWritePost", "InsertLeave")
 --- @field bin_path? string                     Path to phpcs bin (default: vendor/bin/phpcs)

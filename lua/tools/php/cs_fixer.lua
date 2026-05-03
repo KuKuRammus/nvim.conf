@@ -6,7 +6,7 @@
 --
 
 --- @class PhpCsFixerSetupOpts
---- @field runtime ComposerServiceDescriptor    Runtime (composer service only for now)
+--- @field runtime ComposeServiceDescriptor    Runtime (composer service only for now)
 --- @field config_file? string                  Filename defining formatter settings (default: .php-cs-fixer.dist.php)
 --- @field bin_path? string                     Path to php-cs-fixer bin (default: vendor/bin/php-cs-fixer)
 
