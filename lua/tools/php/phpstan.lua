@@ -45,7 +45,7 @@ function M.setup(opts)
     vim.api.nvim_create_user_command(user_cmd_name, function(cmd_opts)
         local args = {
             bin_path,
-            "analyze",
+            "analyse",
             "--error-format=json",
             "--no-progress",
             "--no-interaction",
