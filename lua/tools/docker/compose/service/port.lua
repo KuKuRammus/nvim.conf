@@ -1,6 +1,6 @@
 -- tools.docker.compose.service.port
 --
--- Parses a service's poer mappings into a DockerComposeServicePortMapping
+-- DockerComposeServicePortMapping
 --
 
 --- @class DockerComposeServicePortMapping
@@ -8,26 +8,14 @@
 --- @field container_port integer   Container port
 --- @field protocol string          "tcp" (default) or "udp"
 --- @field host_ip? string          Bind host IP
-
 local M = {}
+M.__index = M
 
---- Parse a single item from service's `ports` item
---- @param raw table
---- @return DockerComposeServicePortMapping|nil
-function M.parse(raw)
-    if type(raw) ~= "table" or not raw.target then
-        return nil
-    end
-
-    --- @type DockerComposeServicePortMapping
-    local mapping = {
-        host_port = raw.published and tonumber(raw.published, 10) or nil,
-        container_port = tonumber(raw.target, 10),
-        protocol = raw.protocol or "tcp",
-        host_ip = raw.host_ip,
-    }
-
-    return mapping
+--- Constructs a mapping
+--- @param fields DockerComposeServicePortMapping
+--- @return DockerComposeServicePortMapping
+function M.new(fields)
+    return setmetatable(fields, M)
 end
 
 return M
