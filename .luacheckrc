@@ -1,2 +1,1 @@
 globals = { "vim" }
-

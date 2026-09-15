@@ -9,9 +9,14 @@ local conform = require("conform")
 
 conform.setup({
     formatters_by_ft = {
+        -- Go
         go = { "goimports", "goimports-reviser" },
+
+        -- C/C++
         c = { "clang-format" },
         cpp = { "clang-format" },
+
+        -- Lua
         lua = { "stylua" },
     },
 

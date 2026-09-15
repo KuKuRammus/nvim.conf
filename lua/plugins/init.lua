@@ -1,13 +1,11 @@
 -- Plugins
-require("plugins.theme")
-require("plugins.treesitter")
 require("plugins.completion")
 require("plugins.formatting")
+require("plugins.git")
 require("plugins.linting")
 require("plugins.navigation")
-require("plugins.git")
-require("plugins.debugging")
-require("plugins.misc")
+require("plugins.theme")
+require("plugins.treesitter")
 
 -- LSP: enable servers
 vim.lsp.enable({ "gopls", "clangd", "lua_ls", "intelephense" })

@@ -1,8 +1,13 @@
 -- Theme / Colors
 --
 
--- onedark
--- https://github.com/navarasu/onedark.nvim
-vim.pack.add({ "https://github.com/navarasu/onedark.nvim" })
-require("onedark").setup({ style = "warmer" })
-require("onedark").load()
+-- kanagawa.nvim
+-- https://github.com/rebelot/kanagawa.nvim
+vim.pack.add({ "https://github.com/rebelot/kanagawa.nvim" })
+local kanagawa = require("kanagawa")
+kanagawa.load("wave")
+
+-- nightfox.nvim
+-- https://github.com/EdenEast/nightfox.nvim
+-- vim.pack.add({ "https://github.com/EdenEast/nightfox.nvim" })
+-- vim.cmd("colorscheme carbonfox")

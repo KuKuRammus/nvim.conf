@@ -40,7 +40,6 @@ local parsers = {
     "yaml",
 }
 
--- Install/update parsers on first launch and whenever the plugin updates
 require("nvim-treesitter").install(parsers)
 
 -- Re-run install after vim.pack updates the plugin (per the official guidance)
