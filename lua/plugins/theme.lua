@@ -1,13 +1,10 @@
 -- Theme / Colors
 --
 
--- kanagawa.nvim
--- https://github.com/rebelot/kanagawa.nvim
-vim.pack.add({ "https://github.com/rebelot/kanagawa.nvim" })
-local kanagawa = require("kanagawa")
-kanagawa.load("wave")
+vim.cmd.colorscheme("ayu")
+vim.o.winborder = "rounded" -- popups sit on the editor background; the border separates them
 
--- nightfox.nvim
--- https://github.com/EdenEast/nightfox.nvim
--- vim.pack.add({ "https://github.com/EdenEast/nightfox.nvim" })
--- vim.cmd("colorscheme carbonfox")
+vim.api.nvim_create_user_command("AyuCompile", function()
+    local path, count = require("themes.ayu").compile()
+    vim.notify(("ayu: compiled %d groups to %s"):format(count, path))
+end, {})

@@ -1,0 +1,50 @@
+-- ibhagwan/fzf-lua
+-- The FzfLuaFzf* groups only apply with `fzf_colors = true` in fzf-lua's setup.
+
+return function(c)
+  return {
+    FzfLuaNormal        = { fg = c.fg, bg = c.bg },
+    FzfLuaBorder        = { fg = c.border, bg = c.bg },
+    FzfLuaTitle         = { fg = c.fg_bright, bg = c.bg, bold = true },
+    FzfLuaTitleFlags    = { fg = c.fg_muted, bg = c.bg_raised },
+    FzfLuaBackdrop      = { bg = c.bg_dark },
+    FzfLuaPreviewNormal = { link = "FzfLuaNormal" },
+    FzfLuaPreviewBorder = { link = "FzfLuaBorder" },
+    FzfLuaPreviewTitle  = { link = "FzfLuaTitle" },
+    FzfLuaCursorLine    = { bg = c.sel },
+    FzfLuaCursorLineNr  = { link = "CursorLineNr" },
+    FzfLuaSearch        = { link = "CurSearch" },
+
+    FzfLuaDirIcon   = { fg = c.accent_hi },
+    FzfLuaDirPart   = { fg = c.comment },
+    FzfLuaFilePart  = { fg = c.fg },
+    FzfLuaHeaderBind = { fg = c.func },
+    FzfLuaHeaderText = { fg = c.fg_muted },
+    FzfLuaPathLineNr = { fg = c.accent_hi },
+    FzfLuaPathColNr  = { fg = c.comment },
+    FzfLuaLivePrompt = { fg = c.accent_hi },
+    FzfLuaLiveSym    = { fg = c.accent_hi },
+    FzfLuaBufName    = { fg = c.accent_hi },
+    FzfLuaBufNr      = { fg = c.constant },
+    FzfLuaBufLineNr  = { fg = c.dim },
+    FzfLuaBufFlagCur = { fg = c.keyword },
+    FzfLuaBufFlagAlt = { fg = c.accent_hi },
+    FzfLuaTabTitle   = { fg = c.type, bold = true },
+    FzfLuaTabMarker  = { fg = c.func, bold = true },
+
+    FzfLuaFzfNormal     = { fg = c.fg },
+    FzfLuaFzfCursorLine = { fg = c.fg_bright, bg = c.sel },
+    FzfLuaFzfMatch      = { fg = c.accent_hi, bold = true },
+    FzfLuaFzfBorder     = { fg = c.border },
+    FzfLuaFzfScrollbar  = { fg = c.bg_raised },
+    FzfLuaFzfSeparator  = { fg = c.border },
+    FzfLuaFzfGutter     = { bg = c.bg },
+    FzfLuaFzfHeader     = { fg = c.fg_muted },
+    FzfLuaFzfInfo       = { fg = c.comment },
+    FzfLuaFzfPointer    = { fg = c.accent },
+    FzfLuaFzfMarker     = { fg = c.func },
+    FzfLuaFzfSpinner    = { fg = c.accent },
+    FzfLuaFzfPrompt     = { fg = c.accent_hi },
+    FzfLuaFzfQuery      = { fg = c.fg },
+  }
+end
