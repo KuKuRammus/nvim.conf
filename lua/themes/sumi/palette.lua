@@ -70,6 +70,6 @@ local c = {
 
 return setmetatable(c, {
   __index = function(_, k)
-    error(("ayu: unknown palette color '%s'"):format(k), 2)
+    error(("sumi: unknown palette color '%s'"):format(k), 2)
   end,
 })

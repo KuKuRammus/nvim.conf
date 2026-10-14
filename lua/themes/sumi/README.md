@@ -1,20 +1,20 @@
-# ayu — Neovim colorscheme
+# sumi — Neovim colorscheme
 
-A single dark variant of Ayu, matched to the rest of the desktop (GTK theme, i3, rofi, dunst).
+A single dark colorscheme matched to the rest of the desktop (GTK theme, i3, rofi, dunst). Syntax colors derive from Ayu Dark.
 Neovim 0.12+. No dependencies.
 
 This file is the design reference. Read it before changing colors or adding groups.
 
 ## Location
 
-This folder lives at `~/.config/nvim/lua/themes/ayu/`, so its Lua module name is `themes.ayu`.
+This folder lives at `~/.config/nvim/lua/themes/sumi/`, so its Lua module name is `themes.sumi`.
 The code takes its module name from wherever it is required, so the folder can be moved or
-renamed; only `colors/ayu.lua` and the `require()` calls below need the new name.
+renamed; only `colors/sumi.lua` and the `require()` calls below need the new name.
 
 ```
 ~/.config/nvim/
-├── colors/ayu.lua            require("themes.ayu").load()   ← entry point for :colorscheme ayu
-└── lua/themes/ayu/           this folder
+├── colors/sumi.lua           require("themes.sumi").load()   ← entry point for :colorscheme sumi
+└── lua/themes/sumi/          this folder
     ├── README.md             this file
     ├── init.lua              loader + compiler + cache
     ├── palette.lua           EVERY color, named by role. The only file with hex values.
@@ -27,7 +27,7 @@ renamed; only `colors/ayu.lua` and the `require()` calls below need the new name
         └── plugins/          plugin highlight groups: blink.lua, gitsigns.lua, fzf.lua, oil.lua
 ```
 
-`colors/ayu.lua` is a single line and stays outside this folder on purpose: `:colorscheme ayu`
+`colors/sumi.lua` is a single line and stays outside this folder on purpose: `:colorscheme sumi`
 needs it, and `:colorscheme` fires the `ColorScheme` event that plugins (fzf-lua, gitsigns, ...)
 use to re-apply their own defaults for groups the theme doesn't define.
 
@@ -39,12 +39,12 @@ may be defined in only one file (defining it twice is a compile error naming bot
 In `init.lua`:
 
 ```lua
-vim.cmd.colorscheme("ayu")
+vim.cmd.colorscheme("sumi")
 vim.o.winborder = "rounded" -- floats are drawn on the editor background; the border separates them
 
-vim.api.nvim_create_user_command("AyuCompile", function()
-  local path, count = require("themes.ayu").compile()
-  vim.notify(("ayu: compiled %d groups to %s"):format(count, path))
+vim.api.nvim_create_user_command("SumiCompile", function()
+  local path, count = require("themes.sumi").compile()
+  vim.notify(("sumi: compiled %d groups to %s"):format(count, path))
 end, {})
 ```
 
@@ -52,16 +52,16 @@ end, {})
 
 | Call | Does |
 |---|---|
-| `require("themes.ayu").load()` | Applies the theme. Recompiles first if any file in this folder is newer than the cache. |
-| `require("themes.ayu").compile()` | Rebuilds the cache now, re-applies if ayu is active. Returns `path, group_count`. |
-| `require("themes.ayu.palette")` | The color table, for your own statusline, winbar, etc. |
+| `require("themes.sumi").load()` | Applies the theme. Recompiles first if any file in this folder is newer than the cache. |
+| `require("themes.sumi").compile()` | Rebuilds the cache now, re-applies if sumi is active. Returns `path, group_count`. |
+| `require("themes.sumi.palette")` | The color table, for your own statusline, winbar, etc. |
 
 Compiling runs every group file against the palette and writes one file of `nvim_set_hl()` calls
-to `stdpath("cache")/ayu/ayu.lua` (readable, if you want to see the final result). Loading only
+to `stdpath("cache")/sumi/sumi.lua` (readable, if you want to see the final result). Loading only
 runs that file (~1.5 ms; a full compile is ~6 ms).
 
 - Editing, adding or deleting any file in this folder triggers a rebuild on the next start, so
-  `:AyuCompile` is only needed to see changes in the running session.
+  `:SumiCompile` is only needed to see changes in the running session.
 - If an edit breaks compilation, startup keeps using the last good cache and shows the error.
 - Using a color name that isn't in `palette.lua` is an error (`unknown palette color 'x'`),
   so typos never silently produce uncolored groups.
@@ -183,7 +183,7 @@ magenta `#d2a6ff`, cyan `#39bae6`, white `#bebdb9`; bright black `#5f636e`, brig
 3. Map by role, not by look: windows → surfaces/`border`; selected item → `sel`; matches →
    `accent_hi` bold; added/removed → `added`/`removed`; anything code-like → the syntax roles.
    Prefer `{ link = "CoreGroup" }` when the plugin's group means the same thing as a core group.
-4. Restart, or run `:AyuCompile`.
+4. Restart, or run `:SumiCompile`.
 
 Covered now: blink.cmp, gitsigns, fzf-lua, oil, nvim-treesitter (via base captures).
 nvim-autopairs, conform.nvim and nvim-lint define no groups of their own: autopairs' fast-wrap
@@ -215,11 +215,10 @@ comment, then use it.
 ## Using the palette in your own config
 
 ```lua
-local c = require("themes.ayu.palette")
+local c = require("themes.sumi.palette")
 vim.api.nvim_set_hl(0, "StatusLineMode", { fg = c.on_accent, bg = c.accent, bold = true })
 vim.api.nvim_set_hl(0, "StatusLineGit",  { fg = c.added, bg = c.bg_alt })
 ```
 
 Groups you define in your config aren't part of the cache, so set them after
-`colorscheme ayu` (or in a `ColorScheme` autocmd).
-
+`colorscheme sumi` (or in a `ColorScheme` autocmd).
