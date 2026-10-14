@@ -8,7 +8,14 @@ require("plugins.theme")
 require("plugins.treesitter")
 
 -- LSP: enable servers
-vim.lsp.enable({ "gopls", "clangd", "lua_ls", "intelephense", "bashls" })
+vim.lsp.enable({
+    "bashls",
+    "clangd",
+    "gopls",
+    "intelephense",
+    "lua_ls",
+    "ts",
+})
 
 local function installed_plugin_names()
     local names = {}
