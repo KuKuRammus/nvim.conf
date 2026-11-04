@@ -4,7 +4,10 @@
 -- blink.cmp - Completion
 -- https://github.com/Saghen/blink.cmp
 -- https://main.cmp.saghen.dev/configuration/reference.html
-vim.pack.add({ "https://github.com/saghen/blink.lib", "https://github.com/saghen/blink.cmp" })
+vim.pack.add({
+    "https://github.com/saghen/blink.lib",
+    "https://github.com/saghen/blink.cmp",
+})
 
 local cmp = require("blink.cmp")
 cmp.build():pwait()
