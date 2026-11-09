@@ -23,6 +23,9 @@ conform.setup({
         sh = { "shfmt" },
         bash = { "shfmt" },
         zsh = { "shfmt" },
+
+        -- Zig
+        zig = { "zigfmt" },
     },
 
     format_on_save = {

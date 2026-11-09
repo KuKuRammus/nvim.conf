@@ -15,6 +15,7 @@ vim.lsp.enable({
     "intelephense",
     "lua_ls",
     "ts",
+    "zls",
 })
 
 local function installed_plugin_names()
